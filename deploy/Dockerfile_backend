@@ -4,6 +4,7 @@ RUN mkdir -p /service
 
 COPY ./.env /.env
 COPY ./src/backend.py /service/backend.py
+COPY ./src/backend_utils.py /service/backend_utils.py
 COPY req_backend.txt /service/req_backend.txt
 COPY ./runners/backend.sh /service/backend.sh
 RUN chmod +x /service/backend.sh

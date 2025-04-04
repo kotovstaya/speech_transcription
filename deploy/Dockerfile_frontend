@@ -4,6 +4,7 @@ RUN mkdir -p /service
 
 COPY ./.env /.env
 COPY ./src/frontend.py /service/frontend.py
+COPY ./src/frontend_utils.py /service/frontend_utils.py
 COPY req_frontend.txt /service/req_frontend.txt
 COPY ./runners/frontend.sh /service/frontend.sh
 RUN chmod +x /service/frontend.sh
