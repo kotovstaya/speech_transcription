@@ -1,0 +1,57 @@
+services:
+  local_llm:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile_llm
+    image: llm_inference
+    hostname: local_llm
+    entrypoint: ./llm.sh
+    env_file:
+      - .env
+    volumes:
+      - ./data/hugging_face_cache:/root/.cache/huggingface
+    ports:
+      - 4321:4321
+    tty: true
+    networks:
+      - speech_network
+
+  backend:
+    build:
+        context: .
+        dockerfile: ./deploy/Dockerfile_backend
+    image: backend
+    hostname: backend
+    entrypoint: ./backend.sh
+    env_file:
+      - .env
+    depends_on:
+      - local_llm
+    ports:
+      - 8009:8009
+    tty: true
+    networks:
+      - speech_network
+#
+  frontend:
+    build:
+        context: .
+        dockerfile: ./deploy/Dockerfile_frontend
+    image: frontend
+    hostname: frontend
+    entrypoint: ./frontend.sh
+    env_file:
+      - .env
+    ports:
+      - 8010:8010
+    depends_on:
+      - local_llm
+    tty: true
+    networks:
+      - speech_network
+
+
+networks:
+  speech_network:
+    driver: bridge
+

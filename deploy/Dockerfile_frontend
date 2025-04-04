@@ -1,0 +1,13 @@
+FROM s_trans_base_image
+
+RUN mkdir -p /service
+
+COPY ./.env /.env
+COPY ./src/frontend.py /service/frontend.py
+COPY req_frontend.txt /service/req_frontend.txt
+COPY ./runners/frontend.sh /service/frontend.sh
+RUN chmod +x /service/frontend.sh
+
+WORKDIR /service
+
+RUN python3 -m pip install -r req_frontend.txt

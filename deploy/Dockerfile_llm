@@ -1,0 +1,15 @@
+FROM s_trans_torch_image
+
+RUN mkdir -p /service
+
+COPY ./.env /.env
+COPY ./src/local_llm.py /service/local_llm.py
+COPY ./src/llm_inference.py /service/llm_inference.py
+COPY req_llm.txt /service/req_llm.txt
+COPY ./runners/llm.sh /service/llm.sh
+RUN chmod +x /service/llm.sh
+
+WORKDIR /service
+
+RUN python3 -m pip install -r req_llm.txt
+RUN python3 -m pip install -U bitsandbytes
