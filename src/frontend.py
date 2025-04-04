@@ -30,7 +30,7 @@ target_peak = 0.95
 
 uploaded_file = st.file_uploader("upload WAV file", type=["wav"])
 chunk_size_sec = st.slider("Chunk size (sec)", 0, 30, value=30, step=1)
-norm_algo = st.selectbox('Normalization algorithm:', ['peak', 'rms', 'lufs'])
+norm_algo = st.selectbox("Normalization algorithm:", ["as is", "peak", "rms", "lufs"])
 if norm_algo == "peak":
     target_peak = st.slider('target peak:', 0.0, 1.0, value=0.95, step=0.01, format="%.2f")
 if norm_algo in ["rms", "lufs"]:

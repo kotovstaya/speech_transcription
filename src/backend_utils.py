@@ -1,6 +1,16 @@
 import numpy as np
 import pyloudnorm as pyln
 import librosa
+import logging
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[logging.StreamHandler()],
+)
+
+logger = logging.getLogger(__name__)
 
 
 def get_peak_normalization(y: np.ndarray, target_peak: float = 0.95) -> np.array:
@@ -32,6 +42,7 @@ def get_resampled_and_normalized_audio(
         original_sr: int,
 ) -> np.ndarray:
     audio = librosa.resample(y=audio, orig_sr=original_sr, target_sr=model_sr)
+    logger.info(f"using {norm_algo} algorithm")
     if norm_algo == "peak":
         audio = get_peak_normalization(audio, target_peak=target_peak)
     elif norm_algo == "rms":

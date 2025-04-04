@@ -45,6 +45,7 @@ async def inference(inp_obj: Input) -> Dict[str, Any]:
         USER_2_CHUNKS.setdefault(inp_obj.user_id, []).append(inp_obj.chunk)
     else:
         audio = np.hstack(USER_2_CHUNKS[inp_obj.user_id])
+        logger.info(f"inp_obj: {inp_obj}")
         audio = get_resampled_and_normalized_audio(
             audio, inp_obj.norm_algo, inp_obj.target_peak, inp_obj.target_dB, inp_obj.model_sr, inp_obj.original_sr,  # noqa: E501
         )
